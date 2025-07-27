@@ -10,5 +10,17 @@
     "id": 5713128876,
     "tag": "Game",
     "featured": true
+  },
+{
+    "name": "Keep It Hidden",
+    "id": 1139193694,
+    "tag": "Game",
+    "featured": true
+  },
+{
+    "name": "Bees!!",
+    "id": 4094095120,
+    "tag": "Game",
+    "featured": true
   }
 ]
