@@ -3,113 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Clean PM</title>
-  <style>
-    :root {
-      --blue: #009ccc;
-      --blue-hover: #00b4e6;
-      --blue-pressed: #007a9f;
-
-      --background: #0b0f12;
-      --surface: #11181c;
-      --surface-elevated: #1a2328;
-
-      --text-primary: #e6f7fb;
-      --text-secondary: #9dbbc5;
-
-      --border: #223238;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      background-color: var(--background);
-      color: var(--text-primary);
-      font-family: system-ui, sans-serif;
-      margin: 0;
-      padding: 2rem;
-    }
-
-    h1 {
-      text-align: center;
-      color: var(--blue);
-      margin-bottom: 2rem;
-    }
-
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .card {
-      background-color: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-      text-decoration: none;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 16px rgba(0, 156, 204, 0.2);
-    }
-
-    .card img {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      display: block;
-    }
-
-    .card-text {
-      padding: 1rem;
-      color: var(--text-primary);
-      font-size: 1rem;
-      text-align: center;
-    }
-
-    .card-text:hover {
-      color: var(--blue-hover);
-    }
-
-    @media (max-width: 600px) {
-      .card img {
-        height: 140px;
-      }
-    }
-  </style>
+  <title>Dark Mode Gallery</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <h1>Dark Mode Image Gallery</h1>
-
-  <div class="gallery">
-
-    <a class="card" href="https://example.com/1" target="_blank">
-      <img src="https://via.placeholder.com/400x250/009ccc/ffffff?text=Image+1" alt="Image 1" />
-      <div class="card-text">Visit Example 1</div>
-    </a>
-
-    <a class="card" href="https://example.com/2" target="_blank">
-      <img src="https://via.placeholder.com/400x250/007a9f/ffffff?text=Image+2" alt="Image 2" />
-      <div class="card-text">Visit Example 2</div>
-    </a>
-
-    <a class="card" href="https://example.com/3" target="_blank">
-      <img src="https://via.placeholder.com/400x250/005469/ffffff?text=Image+3" alt="Image 3" />
-      <div class="card-text">Visit Example 3</div>
-    </a>
-
-    <a class="card" href="https://example.com/4" target="_blank">
-      <img src="https://via.placeholder.com/400x250/00b4e6/000000?text=Image+4" alt="Image 4" />
-      <div class="card-text">Visit Example 4</div>
-    </a>
-
-  </div>
-
+  <div class="gallery" id="gallery"></div>
+  <script src="script.js"></script>
 </body>
 </html>
