@@ -1,28 +1,32 @@
 async function loadGallery() {
   const gallery = document.getElementById('gallery');
 
-  // Fetch project links
-  const response = await fetch('projects.txt');
-  const text = await response.text();
-  const links = text.trim().split('\n');
+  try {
+    const response = await fetch('projects.txt');
+    const text = await response.text();
+    const lines = text.trim().split('\n');
 
-  // Assume images are named img1.jpg, img2.jpg, etc.
-  links.forEach((url, index) => {
-    const imgIndex = index + 1;
-    const imgPath = `images/img${imgIndex}.jpg`;
+    lines.forEach((line, index) => {
+      const [filename, url] = line.split('|');
 
-    const card = document.createElement('a');
-    card.href = url;
-    card.className = 'card';
-    card.target = '_blank';
+      if (!filename || !url) return;
 
-    card.innerHTML = `
-      <img src="${imgPath}" alt="Project ${imgIndex}">
-      <div class="card-text">Visit Project ${imgIndex}</div>
-    `;
+      const card = document.createElement('a');
+      card.href = url;
+      card.className = 'card';
+      card.target = '_blank';
 
-    gallery.appendChild(card);
-  });
+      card.innerHTML = `
+        <img src="images/${filename.trim()}" alt="Project ${index + 1}">
+        <div class="card-text">Visit Project ${index + 1}</div>
+      `;
+
+      gallery.appendChild(card);
+    });
+  } catch (err) {
+    console.error("Failed to load gallery:", err);
+    gallery.innerHTML = "<p style='color: red;'>Failed to load projects.</p>";
+  }
 }
 
 loadGallery();
