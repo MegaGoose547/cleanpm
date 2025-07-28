@@ -4,12 +4,15 @@ async function loadGallery() {
   try {
     const response = await fetch('projects.txt');
     const text = await response.text();
-    const lines = text.trim().split('\n');
+    const lines = text.trim().split('\n').reverse(); // Newest first
 
     lines.forEach((line, index) => {
-      const [filename, url] = line.split('|');
+      const parts = line.split('|');
+      if (parts.length < 2) return;
 
-      if (!filename || !url) return;
+      const filename = parts[0].trim();
+      const url = parts[1].trim();
+      const customText = parts[2]?.trim() || `Visit Project ${index + 1}`;
 
       const card = document.createElement('a');
       card.href = url;
@@ -17,8 +20,8 @@ async function loadGallery() {
       card.target = '_blank';
 
       card.innerHTML = `
-        <img src="images/${filename.trim()}" alt="Project ${index + 1}">
-        <div class="card-text">Visit Project ${index + 1}</div>
+        <img src="images/${filename}" alt="${customText}">
+        <div class="card-text">${customText}</div>
       `;
 
       gallery.appendChild(card);
