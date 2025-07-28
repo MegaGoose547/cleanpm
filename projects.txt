@@ -1,26 +1,6 @@
 [
-  {
-    "name": "Save the Watermelon",
-    "id": 9659193762,
-    "tag": "Game",
-    "featured": true
-  },
-  {
-    "name": "blips",
-    "id": 5713128876,
-    "tag": "Game",
-    "featured": true
-  },
-{
-    "name": "Keep It Hidden",
-    "id": 1139193694,
-    "tag": "Game",
-    "featured": true
-  },
-{
-    "name": "Bees!!",
-    "id": 4094095120,
-    "tag": "Game",
-    "featured": true
-  }
+  9659193762,
+  5713128876,
+  4094095120,
+  1139193694
 ]
