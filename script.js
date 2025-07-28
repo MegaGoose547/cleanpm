@@ -4,7 +4,7 @@ async function loadGallery() {
   try {
     const response = await fetch('projects.txt');
     const text = await response.text();
-    const lines = text.trim().split('\n').reverse(); // Newest first
+    const lines = text.trim().split('\n').reverse();
 
     lines.forEach((line, index) => {
       const parts = line.split('|');
