@@ -1,8 +1,6 @@
-[
-  https://example.com/project1,
-  https://example.com/project2,
-  https://example.com/project3,
-  https://example.com/project4,
-  https://example.com/project5,
-  https://example.com/project6,
-]
+https://example.com/project1
+https://example.com/project2
+https://example.com/project3
+https://example.com/project4
+https://example.com/project5
+https://example.com/project6
