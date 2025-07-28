@@ -1,6 +1,3 @@
-https://example.com/project1
-https://example.com/project2
-https://example.com/project3
-https://example.com/project4
-https://example.com/project5
-https://example.com/project6
+cat.jpg|https://catsite.com
+dog.jpg|https://dogsite.net
+whatever-you-want.png|https://example.com
