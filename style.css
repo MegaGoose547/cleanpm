@@ -63,18 +63,13 @@ h1 {
 }
 
 .card-text {
-  padding: 1rem;
+  padding: 0.75rem 1rem;
   font-size: 1.05rem;
   text-align: center;
   font-weight: 500;
   color: var(--text-primary);
   background-color: rgba(0, 168, 232, 0.05);
   transition: color var(--transition), background-color var(--transition);
-  flex-grow: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 60px;
 }
 
 
