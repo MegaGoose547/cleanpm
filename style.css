@@ -99,6 +99,7 @@ h1 {
   position: sticky;
   top: 0;
   z-index: 10;
+  margin-bottom: 1.5rem;
 }
 
 .topbar h1 {
