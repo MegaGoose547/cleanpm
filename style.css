@@ -88,3 +88,22 @@ h1 {
     font-size: 0.95rem;
   }
 }
+.topbar {
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 6px rgba(0, 168, 232, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: var(--blue);
+  text-shadow: 0 1px 4px rgba(0, 168, 232, 0.3);
+}
