@@ -1,44 +1,57 @@
 :root {
-  --blue: #009ccc;
-  --blue-hover: #00b4e6;
+  --blue: #00a8e8;
+  --blue-hover: #2ec4f1;
   --background: #0b0f12;
   --surface: #11181c;
+  --surface-hover: #192229;
   --text-primary: #e6f7fb;
+  --text-secondary: #a0bfc7;
   --border: #223238;
+  --card-shadow: rgba(0, 168, 232, 0.15);
+  --radius: 16px;
+  --transition: 0.25s ease;
 }
 
 body {
   background-color: var(--background);
   color: var(--text-primary);
-  font-family: system-ui, sans-serif;
+  font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
   margin: 0;
   padding: 2rem;
+  line-height: 1.6;
 }
 
 h1 {
   text-align: center;
   color: var(--blue);
+  font-size: 2.5rem;
   margin-bottom: 2rem;
+  text-shadow: 0 1px 4px rgba(0, 168, 232, 0.3);
 }
 
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 2rem;
+  padding: 0.5rem;
 }
 
 .card {
   background-color: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius);
   overflow: hidden;
   text-decoration: none;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform var(--transition), box-shadow var(--transition), background-color var(--transition);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 4px var(--card-shadow);
 }
 
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(0, 156, 204, 0.2);
+  transform: translateY(-6px);
+  background-color: var(--surface-hover);
+  box-shadow: 0 8px 16px var(--card-shadow);
 }
 
 .card img {
@@ -46,15 +59,32 @@ h1 {
   height: 160px;
   object-fit: cover;
   display: block;
+  border-bottom: 1px solid var(--border);
 }
 
 .card-text {
   padding: 1rem;
-  color: var(--text-primary);
-  font-size: 1rem;
+  font-size: 1.05rem;
   text-align: center;
+  font-weight: 500;
+  color: var(--text-primary);
+  transition: color var(--transition);
 }
 
 .card-text:hover {
   color: var(--blue-hover);
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  .card img {
+    height: 120px;
+  }
+
+  .card-text {
+    font-size: 0.95rem;
+  }
 }
