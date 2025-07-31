@@ -5,45 +5,94 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Add Project</h1>
-  <form id="project-form">
-    <input type="text" id="filename" placeholder="Image filename" required><br>
-    <input type="url" id="url" placeholder="Project URL" required><br>
-    <input type="text" id="text" placeholder="Display Text"><br>
-    <button type="submit">Add Project</button>
-  </form>
+  <h1>Admin Panel</h1>
 
-  <!-- ✅ Load Supabase JS FIRST -->
+  <!-- 🔐 Login Form -->
+  <div id="auth-section">
+    <form id="login-form">
+      <input type="email" id="email" placeholder="Email" required><br>
+      <input type="password" id="password" placeholder="Password" required><br>
+      <button type="submit">Login</button>
+    </form>
+    <p id="login-error" style="color: red;"></p>
+  </div>
+
+  <!-- ✅ Project Add Form (hidden until login) -->
+  <div id="admin-section" style="display:none;">
+    <form id="project-form">
+      <input type="text" id="filename" placeholder="Image filename" required><br>
+      <input type="url" id="url" placeholder="Project URL" required><br>
+      <input type="text" id="text" placeholder="Display Text"><br>
+      <button type="submit">Add Project</button>
+    </form>
+    <button id="logout-btn">Logout</button>
+  </div>
+
+  <!-- Supabase JS -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      // ✅ Create the client using a different name than 'supabase'
-      const supabaseClient = window.supabase.createClient(
-        'https://ubrsdotiwcmiyznvzhcw.supabase.co',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVicnNkb3Rpd2NtaXl6bnZ6aGN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5ODEwMzksImV4cCI6MjA2OTU1NzAzOX0.n5p9dxhNv5u7GyvJ3e2xignsJDyOcBjsFWV6FCwxeVQ'
-      );
+    const supabase = window.supabase.createClient(
+      'https://ubrsdotiwcmiyznvzhcw.supabase.co',
+      'YOUR_ANON_KEY'
+    );
 
-      // ✅ Use supabaseClient (not supabase)
-      document.getElementById('project-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
+    const authSection = document.getElementById('auth-section');
+    const adminSection = document.getElementById('admin-section');
+    const loginForm = document.getElementById('login-form');
+    const projectForm = document.getElementById('project-form');
+    const logoutBtn = document.getElementById('logout-btn');
+    const loginError = document.getElementById('login-error');
 
-        const filename = document.getElementById('filename').value;
-        const url = document.getElementById('url').value;
-        const text = document.getElementById('text').value;
+    async function checkUser() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        authSection.style.display = 'none';
+        adminSection.style.display = 'block';
+      } else {
+        authSection.style.display = 'block';
+        adminSection.style.display = 'none';
+      }
+    }
 
-        const { error } = await supabaseClient.from('projects').insert([
-          { filename, url, text }
-        ]);
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
 
-        if (error) {
-          alert('Error adding project: ' + error.message);
-        } else {
-          alert('Project added!');
-          document.getElementById('project-form').reset();
-        }
-      });
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+      if (error) {
+        loginError.textContent = "Login failed: " + error.message;
+      } else {
+        loginError.textContent = "";
+        await checkUser();
+      }
     });
+
+    logoutBtn.addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      await checkUser();
+    });
+
+    projectForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const filename = document.getElementById('filename').value;
+      const url = document.getElementById('url').value;
+      const text = document.getElementById('text').value;
+
+      const { error } = await supabase.from('projects').insert([{ filename, url, text }]);
+
+      if (error) {
+        alert('Error adding project: ' + error.message);
+      } else {
+        alert('Project added!');
+        projectForm.reset();
+      }
+    });
+
+    checkUser();
   </script>
 </body>
 </html>
