@@ -17,6 +17,7 @@ async function loadGallery() {
       .from('projects')
       .select('*')
       .order('created_at', { ascending: false });
+    console.log("Fetched data:", data);
 
     if (error) throw error;
 
