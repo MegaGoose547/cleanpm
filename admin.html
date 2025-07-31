@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Add Project</h1>
+  <form id="project-form">
+    <input type="text" id="filename" placeholder="Image filename" required><br>
+    <input type="url" id="url" placeholder="Project URL" required><br>
+    <input type="text" id="text" placeholder="Display Text"><br>
+    <button type="submit">Add Project</button>
+  </form>
+
+  <script>
+    const supabase = supabase.createClient('https://YOUR_PROJECT_ID.supabase.co', 'YOUR_ANON_KEY');
+
+    document.getElementById('project-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const filename = document.getElementById('filename').value;
+      const url = document.getElementById('url').value;
+      const text = document.getElementById('text').value;
+
+      const { error } = await supabase.from('projects').insert([
+        { filename, url, text }
+      ]);
+
+      if (error) {
+        alert('Error adding project: ' + error.message);
+      } else {
+        alert('Project added!');
+        document.getElementById('project-form').reset();
+      }
+    });
+  </script>
+</body>
+</html>

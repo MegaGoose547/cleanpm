@@ -1,5 +1,8 @@
 let projects = [];
 let sortNewestFirst = true;
+const supabaseUrl = 'https://ubrsdotiwcmiyznvzhcw.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVicnNkb3Rpd2NtaXl6bnZ6aGN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5ODEwMzksImV4cCI6MjA2OTU1NzAzOX0.n5p9dxhNv5u7GyvJ3e2xignsJDyOcBjsFWV6FCwxeVQ';
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
 async function loadGallery() {
   const gallery = document.getElementById('gallery');
@@ -8,29 +11,27 @@ async function loadGallery() {
   const sortOldestBtn = document.getElementById('sort-oldest');
 
   try {
-    const response = await fetch('projects.txt');
-    const text = await response.text();
-    const lines = text.trim().split('\n');
+    const { data, error } = await supabase
+      .from('projects')
+      .select('*');
 
-    projects = lines.map((line) => {
-      const [filename, url, customText] = line.split('|');
-      return {
-        filename: filename?.trim(),
-        url: url?.trim(),
-        text: customText?.trim() || '',
-      };
-    }).filter(p => p.filename && p.url);
+    if (error) throw error;
+
+    projects = data.map(p => ({
+      filename: p.filename,
+      url: p.url,
+      text: p.text || '',
+      created_at: p.created_at
+    }));
 
     renderGallery();
 
-    // Random button
     randomBtn.addEventListener('click', () => {
       if (projects.length === 0) return;
       const random = projects[Math.floor(Math.random() * projects.length)];
       window.open(random.url, '_blank');
     });
 
-    // Sort buttons
     sortNewestBtn.addEventListener('click', () => {
       sortNewestFirst = true;
       renderGallery();
