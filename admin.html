@@ -2,7 +2,6 @@
 <html>
 <head>
   <title>Admin Panel</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,8 +13,12 @@
     <button type="submit">Add Project</button>
   </form>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
   <script>
-    const supabase = supabase.createClient('https://YOUR_PROJECT_ID.supabase.co', 'YOUR_ANON_KEY');
+    const supabaseUrl = 'https://YOUR_PROJECT_ID.supabase.co';
+    const supabaseKey = 'YOUR_ANON_KEY';
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
     document.getElementById('project-form').addEventListener('submit', async (e) => {
       e.preventDefault();
