@@ -1,12 +1,10 @@
-// ✅ Declare only once
 let projects = [];
 let sortNewestFirst = true;
 
-// ✅ Initialize Supabase ONCE
 const supabaseUrl = 'https://ubrsdotiwcmiyznvzhcw.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVicnNkb3Rpd2NtaXl6bnZ6aGN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5ODEwMzksImV4cCI6MjA2OTU1NzAzOX0.n5p9dxhNv5u7GyvJ3e2xignsJDyOcBjsFWV6FCwxeVQ';
 
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey); // ✅ Use this throughout
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 async function loadGallery() {
   const gallery = document.getElementById('gallery');
@@ -57,11 +55,11 @@ function renderGallery() {
   const gallery = document.getElementById('gallery');
   gallery.innerHTML = '';
 
-  const list = sortNewestFirst
+  const sorted = sortNewestFirst
     ? [...projects].sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
     : [...projects].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
 
-  list.forEach((proj, index) => {
+  sorted.forEach((proj, index) => {
     const card = document.createElement('a');
     card.href = proj.url;
     card.className = 'card';
