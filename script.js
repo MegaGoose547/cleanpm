@@ -4,7 +4,8 @@ let sortNewestFirst = true;
 const supabaseUrl = 'https://ubrsdotiwcmiyznvzhcw.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVicnNkb3Rpd2NtaXl6bnZ6aGN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5ODEwMzksImV4cCI6MjA2OTU1NzAzOX0.n5p9dxhNv5u7GyvJ3e2xignsJDyOcBjsFWV6FCwxeVQ';
 
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+const { createClient } = supabase;
+const supabaseClient = createClient(supabaseUrl, supabaseKey);
 
 async function loadGallery() {
   const gallery = document.getElementById('gallery');
@@ -13,7 +14,7 @@ async function loadGallery() {
   const sortOldestBtn = document.getElementById('sort-oldest');
 
   try {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from('projects')
       .select('*')
       .order('created_at', { ascending: false });
