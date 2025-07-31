@@ -70,7 +70,7 @@ function renderGallery() {
     const displayText = proj.text || `Visit Project ${index + 1}`;
 
     card.innerHTML = `
-      <img src="images/${proj.filename}" alt="${displayText}">
+      <img src="${supabaseUrl}/storage/v1/object/public/project-images/${proj.filename}" alt="${displayText}">
       <div class="card-text">${displayText}</div>
     `;
 
