@@ -41,6 +41,7 @@
       </form>
 
       <button id="logout-btn" class="sort-button" style="margin-top: 1rem;">Logout</button>
+      <div id="project-list" style="margin-top: 2rem;"></div>
     </div>
 
   </div>
@@ -95,38 +96,47 @@
     projectForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const url = document.getElementById('url').value;
-      const text = document.getElementById('text').value;
-      const fileInput = document.getElementById('image-file');
-      const file = fileInput.files[0];
+      const submitButton = projectForm.querySelector('button[type="submit"]');
+      submitButton.disabled = true;
+      submitButton.textContent = "Uploading...";
 
-      if (!file) {
-        alert('Please select an image.');
-        return;
+      try {
+        const url = document.getElementById('url').value;
+        const text = document.getElementById('text').value;
+        const fileInput = document.getElementById('image-file');
+        const file = fileInput.files[0];
+
+        if (!file) {
+          alert('Please select an image.');
+          return;
+        }
+
+        const filename = `${Date.now()}-${file.name}`;
+        const { error: uploadError } = await client.storage
+          .from('project-images')
+          .upload(filename, file);
+
+        if (uploadError) {
+          alert('Image upload failed: ' + uploadError.message);
+          return;
+        }
+
+        const { error: insertError } = await client.from('projects').insert([
+          { filename, url, text }
+        ]);
+
+        if (insertError) {
+          alert('Project insert failed: ' + insertError.message);
+          return;
+        }
+
+        alert('Project added successfully!');
+        projectForm.reset();
+        await loadProjects();
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = "Add Project";
       }
-
-      const filename = `${Date.now()}-${file.name}`;
-      const { error: uploadError } = await client.storage
-        .from('project-images')
-        .upload(filename, file);
-
-      if (uploadError) {
-        alert('Image upload failed: ' + uploadError.message);
-        return;
-      }
-
-      const { error: insertError } = await client.from('projects').insert([
-        { filename, url, text }
-      ]);
-
-      if (insertError) {
-        alert('Project insert failed: ' + insertError.message);
-        return;
-      }
-
-      alert('Project added successfully!');
-      projectForm.reset();
-      await loadProjects();
     });
 
     async function loadProjects() {
