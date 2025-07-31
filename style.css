@@ -21,14 +21,85 @@ body {
   line-height: 1.6;
 }
 
+/* Header */
 h1 {
-  text-align: center;
   color: var(--blue);
   font-size: 2.5rem;
-  margin-bottom: 2rem;
+  margin: 0;
+  text-align: center;
   text-shadow: 0 1px 4px rgba(0, 168, 232, 0.3);
 }
 
+/* Topbar*/
+.topbar {
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 6px rgba(0, 168, 232, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  margin-bottom: 1.5rem;
+}
+
+.topbar-left,
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Buttons*/
+button,
+.topbar-button {
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.6rem 1.25rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+  text-decoration: none;
+}
+
+/* Discord*/
+.discord-button {
+  background-color: #5865f2;
+  color: white;
+  border: none;
+}
+
+.discord-button:hover {
+  background-color: #4752c4;
+}
+
+/* Random*/
+.random-button {
+  background-color: var(--blue);
+  color: white;
+  border: none;
+}
+
+.random-button:hover {
+  background-color: var(--blue-hover);
+}
+
+/* Sort*/
+.sort-button {
+  background-color: transparent;
+  color: var(--blue);
+  border: 1px solid var(--blue);
+  margin-left: 0.5rem;
+}
+
+.sort-button:hover {
+  background-color: var(--blue);
+  color: #fff;
+}
+
+/* Gallery*/
 .gallery {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -36,16 +107,17 @@ h1 {
   padding: 0.5rem;
 }
 
+/* Cards*/
 .card {
   background-color: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
-  text-decoration: none;
-  transition: transform var(--transition), box-shadow var(--transition), background-color var(--transition);
   display: flex;
   flex-direction: column;
+  text-decoration: none;
   box-shadow: 0 2px 4px var(--card-shadow);
+  transition: transform var(--transition), box-shadow var(--transition), background-color var(--transition);
 }
 
 .card:hover {
@@ -75,6 +147,13 @@ h1 {
   color: var(--blue-hover);
 }
 
+/* Sort buttons*/
+.sort-controls {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+
 @media (max-width: 600px) {
   h1 {
     font-size: 2rem;
@@ -87,79 +166,15 @@ h1 {
   .card-text {
     font-size: 0.95rem;
   }
-}
-.topbar {
-  background-color: var(--surface);
-  border-bottom: 1px solid var(--border);
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 2px 6px rgba(0, 168, 232, 0.1);
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  margin-bottom: 1.5rem;
-}
 
-.topbar h1 {
-  margin: 0;
-  font-size: 1.8rem;
-  color: var(--blue);
-  text-shadow: 0 1px 4px rgba(0, 168, 232, 0.3);
-  text-align: center;
-}
-.topbar-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 0.5rem 1rem;
-  font-weight: bold;
-  font-size: 0.95rem;
-  border-radius: 6px;
-  cursor: pointer;
-  border: none;
-  text-decoration: none;
-  transition: background-color 0.2s, color 0.2s;
-}
-.random-button {
-  background-color: var(--blue);
-  color: white;
-  border: none;
-  padding: 0.6rem 1.25rem;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  right: 1.5rem;
-}
+  .topbar {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
 
-.random-button:hover {
-  background-color: var(--blue-hover);
-}
-.sort-button {
-  background-color: transparent;
-  color: var(--blue);
-  border: 1px solid var(--blue);
-  padding: 0.6rem 1rem;
-  margin-left: 0.5rem;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.2s, color 0.2s;
-}
-
-.sort-button:hover {
-  background-color: var(--blue);
-  color: #fff;
-}
-.discord-button {
-  left: 1.5rem;
-  background-color: #5865f2;
-  color: white;
-}
-
-.discord-button:hover {
-  background-color: #4752c4;
+  .topbar-left,
+  .topbar-right {
+    justify-content: center;
+  }
 }
