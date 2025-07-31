@@ -256,3 +256,72 @@ button,
   font-size: 0.9rem;
   text-align: center;
 }
+.admin-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px var(--card-shadow);
+}
+
+.admin-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.admin-card h2 {
+  text-align: center;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.admin-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.admin-card input[type="email"],
+.admin-card input[type="password"],
+.admin-card input[type="text"],
+.admin-card input[type="url"],
+.admin-card input[type="file"] {
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background-color: var(--surface-hover);
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.admin-card input::placeholder {
+  color: var(--text-secondary);
+}
+
+.error-text {
+  color: red;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.project-entry {
+  background-color: var(--surface-hover);
+  border: 1px solid var(--border);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: var(--radius);
+}
+
+.project-entry p {
+  margin: 0 0 0.5rem 0;
+  color: var(--text-primary);
+  word-break: break-word;
+}
+
+.project-entry a {
+  color: var(--blue);
+  text-decoration: underline;
+}
