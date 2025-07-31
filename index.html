@@ -1,28 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Clean PenguinMod</title>
-  <link rel="icon" href="images/artistblue.png" type="image/png" />
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Project Gallery</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
 <body>
-  <div class="topbar">
-    <a href="https://discord.gg/shurC33WeR" class="topbar-button discord-button" target="_blank">Discord</a>
-    <h1 class="topbar-title">Clean PenguinMod</h1>
-    <button id="random-btn" class="random-button topbar-button-right">I'm Feeling Lucky</button>
+  <h1>Project Gallery</h1>
+
+  <div class="controls">
+    <button id="random-btn">🎲 Random</button>
+    <button id="sort-newest">🆕 Newest</button>
+    <button id="sort-oldest">📜 Oldest</button>
   </div>
 
-  <div class="sort-wrapper">
-    <div class="sort-controls">
-      <button id="sort-newest" class="sort-button">Newest</button>
-      <button id="sort-oldest" class="sort-button">Oldest</button>
-    </div>
-  </div>
+  <div id="gallery" class="gallery"></div>
 
-  <div class="gallery" id="gallery"></div>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script src="script.js" defer></script>
+  <script src="script.js"></script>
 </body>
 </html>
