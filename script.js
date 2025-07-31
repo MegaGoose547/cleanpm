@@ -1,17 +1,12 @@
+// ✅ Declare only once
 let projects = [];
 let sortNewestFirst = true;
+
+// ✅ Initialize Supabase ONCE
 const supabaseUrl = 'https://ubrsdotiwcmiyznvzhcw.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVicnNkb3Rpd2NtaXl6bnZ6aGN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5ODEwMzksImV4cCI6MjA2OTU1NzAzOX0.n5p9dxhNv5u7GyvJ3e2xignsJDyOcBjsFWV6FCwxeVQ';
-const client = supabase.createClient(supabaseUrl, supabaseKey);
 
-// Initialize Supabase
-const supabase = window.supabase.createClient(
-  'https://ubrsdotiwcmiyznvzhcw.supabase.co',
-  'YOUR_ANON_KEY'
-);
-
-let projects = [];
-let sortNewestFirst = true;
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey); // ✅ Use this throughout
 
 async function loadGallery() {
   const gallery = document.getElementById('gallery');
@@ -20,7 +15,7 @@ async function loadGallery() {
   const sortOldestBtn = document.getElementById('sort-oldest');
 
   try {
-    const { data, error } = await client
+    const { data, error } = await supabase
       .from('projects')
       .select('*')
       .order('created_at', { ascending: false });
@@ -82,6 +77,5 @@ function renderGallery() {
     gallery.appendChild(card);
   });
 }
-
 
 loadGallery();
