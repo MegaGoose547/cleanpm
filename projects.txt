@@ -7,3 +7,4 @@ bottleblast.png|https://projects.penguinmod.com/9062709997|Bottle Blast!
 jittywinkle.png|https://projects.penguinmod.com/1838175063|Jittywinkle Extravaganz
 joefactory.png|https://projects.penguinmod.com/7340422239|Joe Factory Simulator
 ffuds.jpg|https://projects.penguinmod.com/2571302297|Fully Fictional Untitled Dystopia Simulator
+joesim4.png|https://studio.penguinmod.com/#5081469466|Joe Simulator 4
