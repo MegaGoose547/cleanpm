@@ -10,24 +10,43 @@
 </head>
 <body>
   <div class="topbar">
-  <div class="topbar-left">
-    <a href="https://discord.gg/shurC33WeR" class="topbar-button discord-button" target="_blank">Discord</a>
+    <div class="topbar-left">
+      <a href="https://discord.gg/shurC33WeR" class="topbar-button discord-button" target="_blank">Discord</a>
+    </div>
+    <div class="topbar-center">
+      <h1 class="topbar-title">Clean PenguinMod</h1>
+    </div>
+    <div class="topbar-right">
+      <button id="random-btn" class="random-button">I'm Feeling Lucky</button>
+    </div>
   </div>
-  <div class="topbar-center">
-    <h1 class="topbar-title">Clean PenguinMod</h1>
-  </div>
-  <div class="topbar-right">
-    <button id="random-btn" class="random-button">I'm Feeling Lucky</button>
-  </div>
-</div>
 
   <div class="sort-controls">
-      <button id="sort-newest" class="sort-button">Newest</button>
-      <button id="sort-oldest" class="sort-button">Oldest</button>
+    <button id="sort-newest" class="sort-button">Newest</button>
+    <button id="sort-oldest" class="sort-button">Oldest</button>
   </div>
 
   <div id="gallery" class="gallery"></div>
 
   <script src="script.js"></script>
+
+  <!-- Secret "sigma" listener -->
+  <script>
+    let typedSequence = '';
+
+    document.addEventListener('keydown', (e) => {
+      // Ignore keystrokes from input/textarea fields
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+      typedSequence += e.key.toLowerCase();
+
+      // Keep only the last 5 characters
+      typedSequence = typedSequence.slice(-5);
+
+      if (typedSequence === 'sigma') {
+        window.location.href = 'admin.html';
+      }
+    });
+  </script>
 </body>
 </html>
