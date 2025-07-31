@@ -4,6 +4,15 @@ const supabaseUrl = 'https://ubrsdotiwcmiyznvzhcw.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVicnNkb3Rpd2NtaXl6bnZ6aGN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5ODEwMzksImV4cCI6MjA2OTU1NzAzOX0.n5p9dxhNv5u7GyvJ3e2xignsJDyOcBjsFWV6FCwxeVQ';
 const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
+// Initialize Supabase
+const supabase = window.supabase.createClient(
+  'https://ubrsdotiwcmiyznvzhcw.supabase.co',
+  'YOUR_ANON_KEY'
+);
+
+let projects = [];
+let sortNewestFirst = true;
+
 async function loadGallery() {
   const gallery = document.getElementById('gallery');
   const randomBtn = document.getElementById('random-btn');
@@ -13,15 +22,16 @@ async function loadGallery() {
   try {
     const { data, error } = await supabase
       .from('projects')
-      .select('*');
+      .select('*')
+      .order('created_at', { ascending: false });
 
     if (error) throw error;
 
-    projects = data.map(p => ({
+    projects = data.map((p) => ({
       filename: p.filename,
       url: p.url,
       text: p.text || '',
-      created_at: p.created_at
+      created_at: p.created_at,
     }));
 
     renderGallery();
@@ -50,9 +60,11 @@ async function loadGallery() {
 
 function renderGallery() {
   const gallery = document.getElementById('gallery');
-  gallery.innerHTML = ''; // Clear current gallery
+  gallery.innerHTML = '';
 
-  const list = sortNewestFirst ? [...projects].reverse() : [...projects];
+  const list = sortNewestFirst
+    ? [...projects].sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+    : [...projects].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
 
   list.forEach((proj, index) => {
     const card = document.createElement('a');
@@ -70,5 +82,6 @@ function renderGallery() {
     gallery.appendChild(card);
   });
 }
+
 
 loadGallery();
