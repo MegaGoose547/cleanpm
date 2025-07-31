@@ -9,15 +9,17 @@
 </head>
 <body>
 
-  <!-- Topbar reused from index -->
+  <!-- Topbar -->
   <div class="topbar">
     <a href="index.html" class="topbar-button discord-button">← Back to Gallery</a>
     <h1 class="topbar-title">Admin Panel</h1>
-    <div style="width: 140px;"></div> <!-- spacer -->
+    <div style="width: 140px;"></div>
   </div>
 
+  <!-- Admin Container -->
   <div class="admin-container">
-    <!-- 🔐 Login Form -->
+    
+    <!-- 🔐 Login Section -->
     <div id="auth-section" class="admin-card">
       <h2>Login</h2>
       <form id="login-form">
@@ -28,7 +30,7 @@
       </form>
     </div>
 
-    <!-- ✅ Admin Section -->
+    <!-- ✅ Project Upload Section -->
     <div id="admin-section" class="admin-card" style="display:none;">
       <h2>Add New Project</h2>
       <form id="project-form">
@@ -39,57 +41,93 @@
       </form>
       <button id="logout-btn" class="sort-button" style="margin-top: 1rem;">Logout</button>
     </div>
+
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.5/dist/umd/supabase.min.js"></script>
-<script>
-  const client = window.supabase.createClient(
-    'https://ubrsdotiwcmiyznvzhcw.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVicnNkb3Rpd2NtaXl6bnZ6aGN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5ODEwMzksImV4cCI6MjA2OTU1NzAzOX0.n5p9dxhNv5u7GyvJ3e2xignsJDyOcBjsFWV6FCwxeVQ'
-  );
+  <!-- Supabase Logic -->
+  <script>
+    const client = window.supabase.createClient(
+      'https://ubrsdotiwcmiyznvzhcw.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVicnNkb3Rpd2NtaXl6bnZ6aGN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5ODEwMzksImV4cCI6MjA2OTU1NzAzOX0.n5p9dxhNv5u7GyvJ3e2xignsJDyOcBjsFWV6FCwxeVQ'
+    );
 
-  const authSection = document.getElementById('auth-section');
-  const adminSection = document.getElementById('admin-section');
-  const loginForm = document.getElementById('login-form');
-  const projectForm = document.getElementById('project-form');
-  const logoutBtn = document.getElementById('logout-btn');
-  const loginError = document.getElementById('login-error');
+    const authSection = document.getElementById('auth-section');
+    const adminSection = document.getElementById('admin-section');
+    const loginForm = document.getElementById('login-form');
+    const projectForm = document.getElementById('project-form');
+    const logoutBtn = document.getElementById('logout-btn');
+    const loginError = document.getElementById('login-error');
 
-  async function checkUser() {
-    const { data: { session } } = await client.auth.getSession();
-
-    if (session && session.user) {
-      authSection.style.display = 'none';
-      adminSection.style.display = 'block';
-    } else {
-      authSection.style.display = 'block';
-      adminSection.style.display = 'none';
+    async function checkUser() {
+      const { data: { session } } = await client.auth.getSession();
+      if (session && session.user) {
+        authSection.style.display = 'none';
+        adminSection.style.display = 'block';
+      } else {
+        authSection.style.display = 'block';
+        adminSection.style.display = 'none';
+      }
     }
-  }
 
-  loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
 
-    const { data, error } = await client.auth.signInWithPassword({ email, password });
+      const { data, error } = await client.auth.signInWithPassword({ email, password });
 
-    if (error) {
-      loginError.textContent = "Login failed: " + error.message;
-    } else {
-      loginError.textContent = "";
+      if (error) {
+        loginError.textContent = "Login failed: " + error.message;
+      } else {
+        loginError.textContent = "";
+        await checkUser();
+      }
+    });
+
+    logoutBtn.addEventListener('click', async () => {
+      await client.auth.signOut();
       await checkUser();
-    }
-  });
+    });
 
-  logoutBtn.addEventListener('click', async () => {
-    await client.auth.signOut();
-    await checkUser();
-  });
+    projectForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-  // ... your image/project upload code remains the same ...
+      const url = document.getElementById('url').value;
+      const text = document.getElementById('text').value;
+      const fileInput = document.getElementById('image-file');
+      const file = fileInput.files[0];
 
-  checkUser();
-</script>
+      if (!file) {
+        alert('Please select an image.');
+        return;
+      }
+
+      const filename = `${Date.now()}-${file.name}`;
+      const { error: uploadError } = await client.storage
+        .from('project-images')
+        .upload(filename, file);
+
+      if (uploadError) {
+        alert('Image upload failed: ' + uploadError.message);
+        return;
+      }
+
+      const imageUrl = `https://ubrsdotiwcmiyznvzhcw.supabase.co/storage/v1/object/public/project-images/${filename}`;
+
+      const { error: insertError } = await client.from('projects').insert([
+        { filename, url, text }
+      ]);
+
+      if (insertError) {
+        alert('Project insert failed: ' + insertError.message);
+        return;
+      }
+
+      alert('Project added successfully!');
+      projectForm.reset();
+    });
+
+    checkUser();
+  </script>
 </body>
 </html>
