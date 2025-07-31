@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Panel</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.5/dist/umd/supabase.min.js"></script>
 </head>
 <body>
 
@@ -40,9 +41,8 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-    <script>
-    const supabase = window.supabase.createClient(
+  <script>
+    const supabase = supabase.createClient(
       'https://ubrsdotiwcmiyznvzhcw.supabase.co',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVicnNkb3Rpd2NtaXl6bnZ6aGN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5ODEwMzksImV4cCI6MjA2OTU1NzAzOX0.n5p9dxhNv5u7GyvJ3e2xignsJDyOcBjsFWV6FCwxeVQ'
     );
@@ -67,12 +67,14 @@
 
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
 
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
       if (error) {
+        console.error("Login error:", error);
         loginError.textContent = "Login failed: " + error.message;
       } else {
         loginError.textContent = "";
@@ -86,42 +88,42 @@
     });
 
     projectForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
+      e.preventDefault();
 
-  const url = document.getElementById('url').value;
-  const text = document.getElementById('text').value;
-  const fileInput = document.getElementById('image-file');
-  const file = fileInput.files[0];
+      const url = document.getElementById('url').value;
+      const text = document.getElementById('text').value;
+      const fileInput = document.getElementById('image-file');
+      const file = fileInput.files[0];
 
-  if (!file) {
-    alert('Please select an image.');
-    return;
-  }
+      if (!file) {
+        alert('Please select an image.');
+        return;
+      }
 
-  const filename = ${Date.now()}-${file.name}; // unique filename
-  const { error: uploadError } = await supabase.storage
-    .from('project-images')
-    .upload(filename, file);
+      const filename = `${Date.now()}-${file.name}`;
+      const { error: uploadError } = await supabase.storage
+        .from('project-images')
+        .upload(filename, file);
 
-  if (uploadError) {
-    alert('Image upload failed: ' + uploadError.message);
-    return;
-  }
+      if (uploadError) {
+        alert('Image upload failed: ' + uploadError.message);
+        return;
+      }
 
-  const imageUrl = https://ubrsdotiwcmiyznvzhcw.supabase.co/storage/v1/object/public/project-images/${filename};
+      const imageUrl = `https://ubrsdotiwcmiyznvzhcw.supabase.co/storage/v1/object/public/project-images/${filename}`;
 
-  const { error: insertError } = await supabase.from('projects').insert([
-    { filename, url, text }
-  ]);
+      const { error: insertError } = await supabase.from('projects').insert([
+        { filename, url, text }
+      ]);
 
-  if (insertError) {
-    alert('Project insert failed: ' + insertError.message);
-    return;
-  }
+      if (insertError) {
+        alert('Project insert failed: ' + insertError.message);
+        return;
+      }
 
-  alert('Project added successfully!');
-  projectForm.reset();
-});
+      alert('Project added successfully!');
+      projectForm.reset();
+    });
 
     checkUser();
   </script>
