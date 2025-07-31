@@ -151,8 +151,15 @@ button,
 .sort-controls {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 1rem;
-  margin-bottom: 2rem;
+  margin: 0 auto 2rem auto;
+  max-width: 100%;
+  width: fit-content;
+}
+.sort-wrapper {
+  display: flex;
+  justify-content: center;
 }
 
 
