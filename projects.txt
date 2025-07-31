@@ -8,3 +8,5 @@ jittywinkle.png|https://projects.penguinmod.com/1838175063|Jittywinkle Extravaga
 joefactory.png|https://projects.penguinmod.com/7340422239|Joe Factory Simulator
 ffuds.jpg|https://projects.penguinmod.com/2571302297|Fully Fictional Untitled Dystopia Simulator
 joesim4.png|https://studio.penguinmod.com/#5081469466|Joe Simulator 4
+fblsmall.png|https://projects.penguinmod.com/5726165555|Flappy Bird Legacy
+luigi.jpg|https://projects.penguinmod.com/4314123354|Luigi Poker PM
