@@ -41,8 +41,89 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script>
-    // ... unchanged JS from your original file ...
+    <script>
+    const supabase = window.supabase.createClient(
+      'https://ubrsdotiwcmiyznvzhcw.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVicnNkb3Rpd2NtaXl6bnZ6aGN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5ODEwMzksImV4cCI6MjA2OTU1NzAzOX0.n5p9dxhNv5u7GyvJ3e2xignsJDyOcBjsFWV6FCwxeVQ'
+    );
+
+    const authSection = document.getElementById('auth-section');
+    const adminSection = document.getElementById('admin-section');
+    const loginForm = document.getElementById('login-form');
+    const projectForm = document.getElementById('project-form');
+    const logoutBtn = document.getElementById('logout-btn');
+    const loginError = document.getElementById('login-error');
+
+    async function checkUser() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        authSection.style.display = 'none';
+        adminSection.style.display = 'block';
+      } else {
+        authSection.style.display = 'block';
+        adminSection.style.display = 'none';
+      }
+    }
+
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+      if (error) {
+        loginError.textContent = "Login failed: " + error.message;
+      } else {
+        loginError.textContent = "";
+        await checkUser();
+      }
+    });
+
+    logoutBtn.addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      await checkUser();
+    });
+
+    projectForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const url = document.getElementById('url').value;
+  const text = document.getElementById('text').value;
+  const fileInput = document.getElementById('image-file');
+  const file = fileInput.files[0];
+
+  if (!file) {
+    alert('Please select an image.');
+    return;
+  }
+
+  const filename = ${Date.now()}-${file.name}; // unique filename
+  const { error: uploadError } = await supabase.storage
+    .from('project-images')
+    .upload(filename, file);
+
+  if (uploadError) {
+    alert('Image upload failed: ' + uploadError.message);
+    return;
+  }
+
+  const imageUrl = https://ubrsdotiwcmiyznvzhcw.supabase.co/storage/v1/object/public/project-images/${filename};
+
+  const { error: insertError } = await supabase.from('projects').insert([
+    { filename, url, text }
+  ]);
+
+  if (insertError) {
+    alert('Project insert failed: ' + insertError.message);
+    return;
+  }
+
+  alert('Project added successfully!');
+  projectForm.reset();
+});
+
+    checkUser();
   </script>
 </body>
 </html>
