@@ -76,21 +76,42 @@
     });
 
     projectForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
+  e.preventDefault();
 
-      const filename = document.getElementById('filename').value;
-      const url = document.getElementById('url').value;
-      const text = document.getElementById('text').value;
+  const url = document.getElementById('url').value;
+  const text = document.getElementById('text').value;
+  const fileInput = document.getElementById('image-file');
+  const file = fileInput.files[0];
 
-      const { error } = await supabase.from('projects').insert([{ filename, url, text }]);
+  if (!file) {
+    alert('Please select an image.');
+    return;
+  }
 
-      if (error) {
-        alert('Error adding project: ' + error.message);
-      } else {
-        alert('Project added!');
-        projectForm.reset();
-      }
-    });
+  const filename = `${Date.now()}-${file.name}`; // unique filename
+  const { error: uploadError } = await supabase.storage
+    .from('project-images')
+    .upload(filename, file);
+
+  if (uploadError) {
+    alert('Image upload failed: ' + uploadError.message);
+    return;
+  }
+
+  const imageUrl = `https://ubrsdotiwcmiyznvzhcw.supabase.co/storage/v1/object/public/project-images/${filename}`;
+
+  const { error: insertError } = await supabase.from('projects').insert([
+    { filename, url, text }
+  ]);
+
+  if (insertError) {
+    alert('Project insert failed: ' + insertError.message);
+    return;
+  }
+
+  alert('Project added successfully!');
+  projectForm.reset();
+});
 
     checkUser();
   </script>
