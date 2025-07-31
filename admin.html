@@ -13,15 +13,18 @@
     <button type="submit">Add Project</button>
   </form>
 
+  <!-- ✅ Load Supabase JS FIRST -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      const supabase = supabase.createClient(
+      // ✅ Create the client using a different name than 'supabase'
+      const supabaseClient = window.supabase.createClient(
         'https://ubrsdotiwcmiyznvzhcw.supabase.co',
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVicnNkb3Rpd2NtaXl6bnZ6aGN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5ODEwMzksImV4cCI6MjA2OTU1NzAzOX0.n5p9dxhNv5u7GyvJ3e2xignsJDyOcBjsFWV6FCwxeVQ'
       );
 
+      // ✅ Use supabaseClient (not supabase)
       document.getElementById('project-form').addEventListener('submit', async (e) => {
         e.preventDefault();
 
@@ -29,7 +32,7 @@
         const url = document.getElementById('url').value;
         const text = document.getElementById('text').value;
 
-        const { error } = await supabase.from('projects').insert([
+        const { error } = await supabaseClient.from('projects').insert([
           { filename, url, text }
         ]);
 
